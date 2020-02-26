@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  web_container:
+    image: my_nginx
+    build:
+      context: ./nginx
+    container_name: web_container
+    ports:
+      - "80:80"
+    depends_on:
+      - php_container
+      - mysql_container
+      - memcached_container
+    volumes:
+      - <プロジェクトのボリュームパス>:/var/www:cached
+    restart: always
+    tty: true
+
+  php_container:
+    image: my_php-fpm
+    build:
+      context: ./php-fpm
+    container_name: php_container
+    volumes:
+      - <プロジェクトのボリュームパス>:/var/www:cached
+    restart: always
+    tty: true
+
+  mysql_container:
+    image: my_mysql
+    build:
+      context: ./mysql
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Tokyo
+    command: "--innodb_use_native_aio=0"
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    tty: true
+
+  memcached_container:
+    image: my_memcached
+    build:
+      context: ./memcached
+    container_name: memcached_container
+    environment:
+      TZ: Asia/Tokyo
+    command: "-m 64 2048 -I 20m"
+    restart: always
+    tty: true

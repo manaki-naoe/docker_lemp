@@ -1,0 +1,39 @@
+[mysqld]
+
+# #################
+# innodb
+# #################
+
+# InnoDBテーブルスペースをテーブル単位で作成
+innodb_file_per_table
+
+# InnoDBテーブルスペース自動拡張サイズ
+innodb_autoextend_increment = 64
+
+# InnoDBのデータとインデックスをキャッシュするバッファのサイズ(推奨は物理メモリの8割)
+innodb_buffer_pool_size = 6G
+
+innodb_buffer_pool_instances = 4
+
+#innodb_io_capacity=2000
+#innodb_io_capacity_max=6000
+#innodb_lru_scan_depth=2000
+
+# InnoDBの書込み要求に使用されるバックグラウンドスレッドの数
+innodb_write_io_threads = 32
+
+# InnoDBの読取り要求に使用されるバックグラウンドスレッドの数
+innodb_read_io_threads = 16
+
+# InnoDBの更新ログを記録するメモリ領域
+innodb_log_buffer_size = 256
+
+# InnoDBの更新ログを記録するディスク上のファイルサイズ(innodb_buffer_pool_sizeの4分の1程度)
+innodb_log_file_size = 2G
+
+innodb_flush_neighbors = 0
+
+# flush logの設定(0:なし、1:ディスク、2:メモリ、)
+innodb_flush_log_at_trx_commit = 2
+
+innodb_adaptive_flushing = true
